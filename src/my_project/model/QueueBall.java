@@ -53,7 +53,7 @@ public class QueueBall extends GraphicalObject {
             if (x < 100) arrived = true;
         }
         if(deleted){
-            x -= 100*dt;
+            x -= 200*dt;
             if(x < -25) viewController.removeDrawable(this);
         }
     }

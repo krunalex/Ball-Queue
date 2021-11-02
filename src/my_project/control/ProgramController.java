@@ -3,6 +3,7 @@ package my_project.control;
 import KAGO_framework.control.ViewController;
 import KAGO_framework.model.abitur.datenstrukturen.Queue;
 import my_project.model.QueueBall;
+import my_project.view.InputReceiver;
 
 import java.awt.event.MouseEvent;
 
@@ -36,36 +37,38 @@ public class ProgramController {
      * Sie erstellt die leeren Datenstrukturen, zu Beginn nur eine Queue
      */
     public void startProgram() {
+        // Für Benutzerinteraktion
+        new InputReceiver(this,viewController); // darf anonym sein, weil kein Zugriff nötig ist
+        // Für die Queue:
         ballQueue = new Queue<>();
         lastBallinQueue = null; // die letzte Kugel muss für die Animation gemerkt werden
     }
 
+    public void addBallToQueue(){
+        QueueBall newQueueBall = new QueueBall(650,50,lastBallinQueue,viewController);
+        ballQueue.enqueue(newQueueBall);
+        lastBallinQueue = newQueueBall;
+    }
+
+    public void deleteBallFromQueue(){
+        if(!ballQueue.isEmpty()){
+            if(ballQueue.front().tryToDelete()) ballQueue.dequeue();
+        }
+    }
+
     /**
-     * Sorgt dafür, dass zunächst gewartet wird, damit der SoundController die
-     * Initialisierung abschließen kann. Die Wartezeit ist fest und damit nicht ganz sauber
-     * implementiert, aber dafür funktioniert das Programm auch bei falscher Java-Version
+     * Aufruf bei Mausklick
+     * @param e das Objekt enthält alle Informationen zum Klick
+     */
+    public void mouseClicked(MouseEvent e){
+
+    }
+
+    /**
+     * Aufruf mit jeder Frame
      * @param dt Zeit seit letzter Frame
      */
     public void updateProgram(double dt){
 
-    }
-
-
-    /**
-     * Verarbeitet einen Mausklick.
-     * Alternativ kann man auch ein Objekt einer Klasse erstellen, die das Interactable-Interface realisiert und darüber dann
-     * alle Eingaben verarbeiten.
-     * @param e das Objekt enthält alle Informationen zum Klick
-     */
-    public void mouseClicked(MouseEvent e){
-        if(e.getButton() == MouseEvent.BUTTON1){ // falls die linke Maustaste geklickt wurde...
-            QueueBall newQueueBall = new QueueBall(650,100,lastBallinQueue,viewController);
-            ballQueue.enqueue(newQueueBall);
-            lastBallinQueue = newQueueBall;
-        } else { // falls eine andere Maustaste geklickt wurde
-            if(!ballQueue.isEmpty()){
-                if(ballQueue.front().tryToDelete()) ballQueue.dequeue();
-            }
-        }
     }
 }
