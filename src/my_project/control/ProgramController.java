@@ -1,10 +1,9 @@
 package my_project.control;
 
-import KAGO_framework.control.DatabaseController;
 import KAGO_framework.control.ViewController;
-import my_project.model.House;
+import KAGO_framework.model.abitur.datenstrukturen.Queue;
+import my_project.model.QueueBall;
 
-import javax.swing.*;
 import java.awt.event.MouseEvent;
 
 /**
@@ -18,6 +17,8 @@ public class ProgramController {
 
     // Referenzen
     private ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
+    private Queue<QueueBall> ballQueue;
+    private QueueBall lastBallinQueue;
 
     /**
      * Konstruktor
@@ -34,12 +35,8 @@ public class ProgramController {
      * Diese Methode wird genau ein mal nach Programmstart aufgerufen. Achtung: funktioniert nicht im Szenario-Modus
      */
     public void startProgram() {
-        //Hier wird eine lokale Referenz für ein House-Objekt angelegt.
-        House firstHouse = new House();
-
-        //Damit die draw-Methode des Objekts hinter firstHouse aufgerufen wird,
-        //muss dem ViewController-Objekt mitgeteilt werden, dass es das House-Objekt zeichnen soll.
-        viewController.draw(firstHouse);
+        ballQueue = new Queue<>();
+        lastBallinQueue = null;
     }
 
     /**
@@ -58,6 +55,15 @@ public class ProgramController {
      * @param e das Objekt enthält alle Informationen zum Klick
      */
     public void mouseClicked(MouseEvent e){
-
+        if(e.getButton() == MouseEvent.BUTTON1){
+            QueueBall newQueueBall = new QueueBall(650,100,lastBallinQueue,viewController);
+            ballQueue.enqueue(newQueueBall);
+            lastBallinQueue = newQueueBall;
+        } else {
+            if(!ballQueue.isEmpty()){
+                ballQueue.front().setDeleted();
+                ballQueue.dequeue();
+            }
+        }
     }
 }
