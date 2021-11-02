@@ -32,11 +32,12 @@ public class ProgramController {
     }
 
     /**
-     * Diese Methode wird genau ein mal nach Programmstart aufgerufen. Achtung: funktioniert nicht im Szenario-Modus
+     * Diese Methode wird genau ein mal nach Programmstart aufgerufen.
+     * Sie erstellt die leeren Datenstrukturen, zu Beginn nur eine Queue
      */
     public void startProgram() {
         ballQueue = new Queue<>();
-        lastBallinQueue = null;
+        lastBallinQueue = null; // die letzte Kugel muss für die Animation gemerkt werden
     }
 
     /**
@@ -52,17 +53,18 @@ public class ProgramController {
 
     /**
      * Verarbeitet einen Mausklick.
+     * Alternativ kann man auch ein Objekt einer Klasse erstellen, die das Interactable-Interface realisiert und darüber dann
+     * alle Eingaben verarbeiten.
      * @param e das Objekt enthält alle Informationen zum Klick
      */
     public void mouseClicked(MouseEvent e){
-        if(e.getButton() == MouseEvent.BUTTON1){
+        if(e.getButton() == MouseEvent.BUTTON1){ // falls die linke Maustaste geklickt wurde...
             QueueBall newQueueBall = new QueueBall(650,100,lastBallinQueue,viewController);
             ballQueue.enqueue(newQueueBall);
             lastBallinQueue = newQueueBall;
-        } else {
+        } else { // falls eine andere Maustaste geklickt wurde
             if(!ballQueue.isEmpty()){
-                ballQueue.front().setDeleted();
-                ballQueue.dequeue();
+                if(ballQueue.front().tryToDelete()) ballQueue.dequeue();
             }
         }
     }
