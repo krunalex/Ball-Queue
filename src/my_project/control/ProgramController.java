@@ -2,7 +2,9 @@ package my_project.control;
 
 import KAGO_framework.control.ViewController;
 import KAGO_framework.model.abitur.datenstrukturen.Queue;
+import KAGO_framework.model.abitur.datenstrukturen.Stack;
 import my_project.model.QueueBall;
+import my_project.model.StackSquare;
 import my_project.view.InputReceiver;
 
 import java.awt.event.MouseEvent;
@@ -20,6 +22,7 @@ public class ProgramController {
     private ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private Queue<QueueBall> ballQueue;
     private QueueBall lastBallinQueue;
+    private Stack<StackSquare> squareStack;
 
     /**
      * Konstruktor
@@ -41,6 +44,7 @@ public class ProgramController {
         new InputReceiver(this,viewController); // darf anonym sein, weil kein Zugriff nötig ist
         // Für die Queue:
         ballQueue = new Queue<>();
+        squareStack = new Stack<>();
         lastBallinQueue = null; // die letzte Kugel muss für die Animation gemerkt werden
     }
 

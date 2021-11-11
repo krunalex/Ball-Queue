@@ -29,7 +29,6 @@ public class QueueBall extends GraphicalObject {
         this.viewController = viewController;
         arrived = false;
         deleted = false;
-        viewController.draw(this);
     }
 
 
